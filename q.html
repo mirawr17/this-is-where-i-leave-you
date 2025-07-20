@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I just wanted you to stay</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300&display=swap');
+        
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #efdecd;
+            color: #333;
+            font-family: 'Crimson Text', serif;
+            line-height: 1.8;
+            overflow-x: hidden;
+        }
+        
+        .homepage {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .envelope {
+            width: 300px;
+            height: 200px;
+            background-color: white;
+            border: 1px solid #6f4e37;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            position: relative;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        
+        .envelope:hover {
+            transform: translateY(-5px);
+        }
+        
+        .envelope:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            width: 0;
+            height: 0;
+            border-left: 150px solid transparent;
+            border-right: 150px solid transparent;
+            border-top: 100px solid #6f4e37;
+            transform-origin: top;
+            transform: rotateX(0deg);
+            z-index: 2;
+            transition: all 0.3s 0.3s;
+        }
+        
+        .envelope.open:before {
+            transform: rotateX(180deg);
+        }
+        
+        .envelope-content {
+            padding: 20px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .envelope.open .envelope-content {
+            opacity: 1;
+        }
+        
+        .letter-container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 0 20px;
+            display: none;
+        }
+        
+        .poems-container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 0 20px;
+            display: none;
+        }
+        
+        .opening-message {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 40px;
+            background-color: #987654;
+            border-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            border: 1px solid #7a5c35;
+            display: none;
+            text-align: center;
+            animation: fadeIn 2s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .open-letter-btn {
+            background-color: #664c28;
+            color: #e0e0e0;
+            border: none;
+            padding: 12px 25px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-radius: 3px;
+            margin-top: 20px;
+        }
+        
+        .open-letter-btn:hover {
+            background-color: #7a5c35;
+        }
+        
+        .poems-btn {
+            background-color: #664c28;
+            color: #e0e0e0;
+            border: none;
+            padding: 12px 25px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-radius: 3px;
+            margin: 20px auto;
+            display: block;
+        }
+        
+        .poems-btn:hover {
+            background-color: #7a5c35;
+        }
+        
+        .back-btn {
+            background-color: #664c28;
+            color: #e0e0e0;
+            border: none;
+            padding: 12px 25px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-radius: 3px;
+            margin: 20px 0;
+        }
+        
+        .back-btn:hover {
+            background-color: #664c28;
+        }
+        
+        .letter-content {
+            background-color: #987654;
+            padding: 40px;
+            border-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            border: 1px solid #7a5c35;
+        }
+        
+        .poems-content {
+            background-color: #987654;
+            padding: 40px;
+            border-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            border: 1px solid #5a4a3a;
+        }
+        
+        h1 {
+            font-family: 'Montserrat', sans-serif;
+            color: #d4a373;
+            text-align: center;
+            margin-bottom: 40px;
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+        
+        h2 {
+            font-family: 'Montserrat', sans-serif;
+            color: #d4a373;
+            text-align: center;
+            margin-bottom: 30px;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+        
+        h3 {
+            font-family: 'Montserrat', sans-serif;
+            color: #d4a373;
+            text-align: center;
+            margin-bottom: 30px;
+            font-weight: 300;
+        }
+        
+        p {
+            margin-bottom: 25px;
+            font-size: 18px;
+            text-align: justify;
+            color: #333;
+        }
+        
+        .opening-text {
+            font-size: 18px;
+            text-align: center;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        
+        .signature {
+            font-style: italic;
+            text-align: right;
+            margin-top: 50px;
+            color: #d4a373;
+        }
+        
+        .date {
+            text-align: right;
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 30px;
+        }
+        
+        .section {
+            margin: 60px 0;
+            padding: 30px;
+            background-color: #d4bca0;
+            border-left: 3px solid #d4a373;
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .media-container {
+            margin: 30px 0;
+            text-align: center;
+        }
+        
+        .photo {
+            max-width: 50%;
+            border-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            border: 1px solid #5a4a3a;
+        }
+        
+        .song-player {
+            width: 100%;
+            max-width: 400px;
+            margin: 30px auto;
+            background-color: #d4bca0;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            border: 1px solid #664c28;
+        }
+        
+        .album-cover {
+            width: 80px;
+            height: 80px;
+            border-radius: 5px;
+            background-color: #1a1a1a;
+            margin-right: 20px;
+            overflow: hidden;
+        }
+        
+        .album-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .song-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .song-title {
+            color: #664c28;
+            margin-bottom: 5px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 14px;
+        }
+        
+        .song-artist {
+            color: #666;
+            font-size: 12px;
+            margin-bottom: 10px;
+        }
+        
+        audio {
+            width: 100%;
+        }
+        
+        .heart-divider {
+            text-align: center;
+            margin: 50px 0;
+            color: #d4a373;
+            font-size: 24px;
+        }
+        
+        .poem-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .poem-item {
+            background-color: #d4bca0;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        
+        .poem-item img {
+            max-width: 100%;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            border: 1px solid #5a4a3a;
+        }
+        
+        #musicControl {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            z-index: 1000;
+            background-color: rgba(212, 163, 115, 0.8);
+            padding: 10px;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        
+        @media (max-width: 768px) {
+            .letter-content, .poems-content, .opening-message {
+                padding: 30px 20px;
+            }
+            
+            p {
+                font-size: 16px;
+            }
+            
+            .section {
+                padding: 20px 15px;
+            }
+            
+            .song-player {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .album-cover {
+                margin-right: 0;
+                margin-bottom: 15px;
+            }
+            
+            .poem-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Music Element -->
+    <audio id="bgMusic" loop>
+        <source src="mp3/billie.mp3" type="audio/mpeg">
+    </audio>
+    <div id="musicControl" title="What was i made for?">🎵</div>
+
+    <div class="homepage" id="homepage">
+        <div class="envelope" id="envelope">
+            <div class="envelope-content">
+                <h2>If You Ever Wonder, Know This Was Love</h2>
+                <p>A Letter From Mira</p>
+            </div>
+        </div>
+        <button class="open-letter-btn" id="openLetterBtn">Open Letter</button>
+    </div>
+    
+    <!-- Opening Message (shown after envelope is clicked) -->
+    <div class="opening-message" id="openingMessage">
+        <h3>I know you won't read this.</h3>
+        <div class="opening-text">
+            <p>This is the only way I know how to express what I feel.</p>
+            <p>Maybe you’ll think it’s cringe, but to me, it means everything.</p>
+            <p>Please, for the last time, read this.</p>
+            <p>After that, I’ll disappear from your life forever.</p>
+        </div>
+        <button class="open-letter-btn" id="proceedBtn">Continue to Letter</button>
+    </div>
+    
+    <div class="letter-container" id="letterContainer">
+        <div class="letter-content">
+            <h1>If You Ever Wonder, Know This Was Love</h1>
+            <div class="date">July 2025</div>
+            
+            <p>Dear Qomar,</p>
+            
+            <p>I don't know how to write to you without crying.</p>
+            
+            <div class="section">
+                <p>It all began on the 1st of January, 2025, when our paths quietly crossed. From that day onward, I became the happiest person in the world. I don't even know why. Maybe because even when sadness crept in, I had you, my friend. My light.</p>
+                
+                <p>At first, I only wanted to be your friend. That's all I thought I could ever be. But life, as always, had other plans.</p>
+                
+                <p>I fell in love with you.</p>
+            </div>
+            
+            <p>I denied it, fiercely. No, it wasn't love, I told myself. Just infatuation. Just a fleeting feeling. But no, Mira. You don't behave like that for something so shallow. You don't lose sleep, write poems, and feel this deeply for something that isn't real. And slowly, painfully. I admitted it to myself.</p>
+            
+            <p>Yes. I liked you.<br>
+            Yes. I loved you.</p>
+            
+            <div class="media-container">
+                <img src="q15.jpg" alt="Even though we never met" class="photo">
+                <p><em>Even though we never met, what a fool I was.</em></p>
+            </div>
+            
+            <p>But I planned to. As soon as I finished my diploma and came back to Johor, I planned to meet you. You didn't know that. Because once again, life had other plans.</p>
+            
+            <p>I could've been angry at myself, at fate. But instead, I wrote poems.</p>
+            
+            <button class="poems-btn" id="viewPoemsBtn">Read Poems Here</button>
+            
+            <p>And when I wrote those poems about you, I couldn't stop listening to Falling in Love by Cigarettes After Sex. Yes, every single day. That song became my quiet confession. My silent way of loving you from a distance. Every time it played, I thought of you. Every time it played, I missed you.</p>
+            
+            <div class="song-player">
+                <div class="album-cover">
+                    <img src="images/cas.jpg" alt="Cigarettes After Sex Album Cover">
+                </div>
+                <div class="song-info">
+                    <div class="song-title">Falling in Love</div>
+                    <div class="song-artist">Cigarettes After Sex</div>
+                    <audio controls>
+                        <source src="mp3/fallinlove.mp3" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                </div>
+            </div>
+            
+            <p>I thought, Maybe if I write what I feel now, I'll understand it better in the future. I reread those poems again and again... and yes, I saw it clearly. I was in love with you.</p>
+            
+            <p>"Poor Mira," I whispered to myself.</p>
+            
+            <div class="section">
+                <p>You never knew how much those little words of yours meant to me. Especially the day you said, "If I were to find someone pun, it's you." I knew you didn't mean it the way I hoped. I knew I shouldn't fall for it.<br>
+                But dumb, hopeless me, I still did.</p>
+                
+                <div class="media-container">
+                    <img src="q13.jpg" alt="Your message that meant everything" class="photo">
+                </div>
+            </div>
+            
+            <div class="heart-divider">♡</div>
+            
+            <div class="section">
+                <p>When February came, I felt the distance between us grow.<br>
+                And when you admitted that you were the one pulling away, I wanted to scream: Why did you get close to me only to walk away?</p>
+                 <p>I wasn’t just angry. I was heartbroken. Because I don’t think it was ever about the fact that we’re not from the same country. I think you just came into my life to fill a hole in your heart, and when I wasn’t exciting anymore… you left. <br>
+				 <p>It was disappointment. Deep, hollow disappointment.<br>
+                Because I never expected you to love me. I never hoped for a romantic fairytale. All I ever wanted was for you to stay. To be my friend.
+But even that… was too much to ask.</p>
+                <div class="media-container">
+                    <img src="q14.jpg" alt="Me telling my friend about you" class="photo">
+                </div>
+            </div>
+            <p>And that was the day I thought Leomatch was a curse. A damn cruel joke. I hated it. I hated everything.<br>
+            Before you, I was self-aware. I could see the red flags. I was cautious. I would leave at the first sign of pain.</p>
+            <p>But with you… I stayed. I was stupid. I was soft. I was everything I swore I’d never be.<br>
+           You never knew that I talked about you every day to my friend. Every. Single. Day.</p>
+             <p>I told her how I missed you, how I couldn’t sleep at night. How much I missed your voice, your face, the way you’d say things only you would say.<br>
+           I told her I didn’t understand why you couldn’t just be my friend.</p>
+		    <p>I told her, “This isn’t me. I don’t act like this. I’ve never let anyone make me feel this way.”<br>
+           But with you… I broke all my own rules. I was strict with my heart before. I respected myself enough to walk away.
+But with you… I stayed.</p>
+            <p>I know for you, it was probably just a casual moment. Something you’d say or do with anyone. But for me, it was different.<br>
+          
+            
+            <div class="heart-divider">♡</div>
+            
+            <div class="section">
+                <p>And after we stopped talking, I found myself listening to The Cut That Always Bleeds by Conan Gray. Over and over again. It was like the song understood what I couldn't say out loud. Every lyric felt like the wound you left behind.</p>
+                
+                <div class="song-player">
+                    <div class="album-cover">
+                        <img src="images/bleed.jpg" alt="Conan Gray Album Cover">
+                    </div>
+                    <div class="song-info">
+                        <div class="song-title">The Cut That Always Bleeds</div>
+                        <div class="song-artist">Conan Gray</div>
+                        <audio controls>
+                            <source src="mp3/thecut.mp3" type="audio/mpeg">
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
+                </div>
+            </div>
+            
+            <p>So I reread our old conversations. I looked at your picture, because that's all I had left of you. That's all I will ever have.</p>
+            
+            <div class="media-container">
+                <img src="images/q21.jpg" alt="Our convos" class="photo">
+            </div>
+            
+            <div class="heart-divider">♡</div>
+			<p>When you told me about your past, I didn’t judge. I didn’t question. I just wanted to understand. I wanted to know you, not just the version you showed to the world, but the version you hid. The one that hurts. The one that needed someone.<br>
+            And when you finally apologized, I couldn’t even reply. Because I was hurting too much. You said there was no guarantee that we could become anything. But I never wanted a guarantee. I never asked to be anything.</p>
+			<p>I just wanted to stay in your life.<br>
+           And even that… was too much.</p>
+			<p>When I started my degree, You were always in my mind. I thought, If he was still here, I could share this with him. I could tell him about my day.
+But no. You’re not here. And you won’t be.<br>
+          So I stopped waiting. I won’t reach out again. I won’t hope for a reply. Because I finally understand: I was in denial for so long. But not anymore.<br>
+			<p>This is it, Qomar. This is my final goodbye.<br>
+            I will leave you alone, forever. I will not disturb your peace. I will not text, or wait, or wish anymore.</p>
+			<p>But before I go, I want you to know:</p>
+            
+            <div class="section">
+                <p>I hope you're happy.<br>
+                I hope you achieve everything you told me you dreamed of.<br>
+                I hope you get into the university you wanted.<br>
+                I hope you start again, and this time, you stay gentle with yourself.<br>
+                I hope you spend more time with your family; your little sister, your parents.<br>
+                I hope you ride your bicycle safely, and smile under the sky.<br>
+                I hope you never stop collecting perfumes that make you feel like you.<br>
+                I hope you stay close to Allah.<br>
+                I hope you take care of your heart, your health, and your soul.<br>
+                I hope you become the person you always wanted to be.</p>
+            </div>
+            
+            <p>And if one day you think of me... even for a moment, I hope it brings you softness. Not guilt. Not sadness. Just a whisper of memory, like a quiet wind passing through.</p>
+            
+            <p>I hope you find the one you're looking for.</p>
+            
+            <p>Take care, Q.<br>
+            Take care of your dreams, your family, your life.</p>
+            
+            <p>You will always be a part of my story, even if I no longer belong in yours.</p>
+            
+            <p>This is my final act of love.<br>
+            My final goodbye.<br>
+            And now, I walk away. For real this time.</p>
+            
+            <div class="signature">
+                <p>— Amierah Aizah</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="poems-container" id="poemsContainer">
+        <div class="poems-content">
+            <button class="back-btn" id="backBtn">← Back to Letter</button>
+            <h1>Poems For Q</h1>
+            <p>All the poems I wrote thinking of you...</p>
+            
+            <div class="poem-grid">
+                <div class="poem-item">
+                    <img src="images/q1.jpg" alt="Poem 1">
+                    
+                </div>
+                <div class="poem-item">
+                    <img src="images/q2.png" alt="Poem 2">
+                     
+                </div>
+                <div class="poem-item">
+                    <img src="images/q3.png" alt="Poem 3">
+                  
+                </div>
+                <div class="poem-item">
+                    <img src="images/q4.png" alt="Poem 4">
+                     
+                </div>
+                <div class="poem-item">
+                    <img src="images/q5.png" alt="Poem 5">
+                   
+                </div>
+                <div class="poem-item">
+                    <img src="images/q6.png" alt="Poem 6">
+                    
+                </div>
+                <div class="poem-item">
+                    <img src="images/q8.png" alt="Poem 7">
+                     
+                </div>
+                <div class="poem-item">
+                    <img src="images/q9.png" alt="Poem 8">
+                     
+                </div>
+                <div class="poem-item">
+                    <img src="images/q11.png" alt="Poem 9">
+                    
+                </div>
+                <div class="poem-item">
+                    <img src="images/q12.png" alt="Poem 10">
+                     
+                </div>
+            </div>
+            <button class="back-btn" id="backBtn2">← Back to Letter</button>
+        </div>
+    </div>
+
+    <script>
+        // Envelope animation
+        const envelope = document.getElementById('envelope');
+        const openLetterBtn = document.getElementById('openLetterBtn');
+        const proceedBtn = document.getElementById('proceedBtn');
+        const homepage = document.getElementById('homepage');
+        const openingMessage = document.getElementById('openingMessage');
+        const letterContainer = document.getElementById('letterContainer');
+        const poemsContainer = document.getElementById('poemsContainer');
+        const viewPoemsBtn = document.getElementById('viewPoemsBtn');
+        const backBtn = document.getElementById('backBtn');
+        const backBtn2 = document.getElementById('backBtn2');
+        
+        // Open envelope and show opening message
+        openLetterBtn.addEventListener('click', function() {
+            envelope.classList.add('open');
+            homepage.style.display = 'none';
+            openingMessage.style.display = 'block';
+            
+            // Smooth scroll to opening message
+            setTimeout(() => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            }, 500);
+        });
+        
+        // Proceed from opening message to full letter
+        proceedBtn.addEventListener('click', function() {
+            openingMessage.style.display = 'none';
+            letterContainer.style.display = 'block';
+            
+            // Smooth scroll to letter
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        
+        viewPoemsBtn.addEventListener('click', function() {
+            letterContainer.style.display = 'none';
+            poemsContainer.style.display = 'block';
+            
+            // Smooth scroll to poems
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        
+        backBtn.addEventListener('click', function() {
+            poemsContainer.style.display = 'none';
+            letterContainer.style.display = 'block';
+            
+            // Smooth scroll to letter
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        
+        backBtn2.addEventListener('click', function() {
+            poemsContainer.style.display = 'none';
+            letterContainer.style.display = 'block';
+            
+            // Smooth scroll to letter
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        
+        // Fade in elements as user scrolls
+        const fadeElements = document.querySelectorAll('.section, .media-container, .song-player, .poem-item');
+        
+        const fadeInOnScroll = function() {
+            for (let i = 0; i < fadeElements.length; i++) {
+                const elem = fadeElements[i];
+                const distInView = elem.getBoundingClientRect().top - window.innerHeight + 100;
+                if (distInView < 0) {
+                    elem.style.opacity = '1';
+                    elem.style.transform = 'translateY(0)';
+                }
+            }
+        };
+        
+        // Set initial styles
+        fadeElements.forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        });
+        
+        window.addEventListener('scroll', fadeInOnScroll);
+        window.addEventListener('load', fadeInOnScroll);
+
+        // Background Music Control
+        const bgMusic = document.getElementById('bgMusic');
+        const musicControl = document.getElementById('musicControl');
+        const songPlayers = document.querySelectorAll('.song-player audio');
+        
+        // Start music after user interaction
+        function startBackgroundMusic() {
+            bgMusic.volume = 0.9;
+            bgMusic.play().catch(e => console.log("Background music play prevented:", e));
+            
+            // Remove event listeners after first interaction
+            document.removeEventListener('click', startBackgroundMusic);
+            document.removeEventListener('keydown', startBackgroundMusic);
+            document.removeEventListener('touchstart', startBackgroundMusic);
+        }
+        
+        // Set up interaction listeners
+        document.addEventListener('click', startBackgroundMusic);
+        document.addEventListener('keydown', startBackgroundMusic);
+        document.addEventListener('touchstart', startBackgroundMusic);
+        
+        // Music control button
+        musicControl.addEventListener('click', function() {
+            if (bgMusic.paused) {
+                bgMusic.play();
+                this.textContent = '🎵';
+            } else {
+                bgMusic.pause();
+                this.textContent = '🔇';
+            }
+        });
+        
+        // Pause background music when song players are active
+        songPlayers.forEach(player => {
+            player.addEventListener('play', function() {
+                bgMusic.pause();
+                musicControl.textContent = '🔇';
+            });
+            
+            player.addEventListener('pause', function() {
+                if (Array.from(songPlayers).every(p => p.paused)) {
+                    bgMusic.play();
+                    musicControl.textContent = '🎵';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
